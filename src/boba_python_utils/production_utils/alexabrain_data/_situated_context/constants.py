@@ -1,0 +1,17 @@
+KEY_SITUATED_CONTEXT = 'situatedContext'
+KEY_MSHOP_SIGNALS = 'mShop_signals'
+KEY_MSHOP_LIST = f'{KEY_MSHOP_SIGNALS}.payload'
+KEY_MSHOP_LIST_TITLE = f'{KEY_MSHOP_SIGNALS}.payload.listTitle'
+KEY_MSHOP_LIST_ITEMS = f'{KEY_MSHOP_SIGNALS}.payload.shoppingCandidates'
+
+KEY_SC_ACTIVE_CONTEXT = f'{KEY_SITUATED_CONTEXT}.activeContext'
+KEY_SC_ACTIVE_CONTEXT_TYPE = '@type'
+KEY_SC_ACTIVE_MUSIC_ARTIST_NAME = 'artist.artistName'
+KEY_ACTIVE_MUSIC_ARTIST = 'active_music_artist'
+KEY_SC_ACTIVE_MUSIC_ALBUM_NAME = 'album.albumName'
+KEY_ACTIVE_MUSIC_ALBUM = 'active_music_album'
+KEY_SC_ACTIVE_MUSIC_SONG_NAME = 'song.songName'
+KEY_ACTIVE_MUSIC_SONG = 'active_music_song'
+
+KEY_CONTEXT_TYPE = 'context_type'
+KEY_CONTEXT_VALUE = 'context_value'

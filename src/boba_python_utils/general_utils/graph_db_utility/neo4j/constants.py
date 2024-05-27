@@ -1,0 +1,8 @@
+VERBOSE = True
+
+DEFAULT_SERVER = 'bolt://localhost:7687'
+DEFAULT_USER = 'neo4j'
+DEFAULT_PASSWORD = 'SLAB1234'
+
+DEFAULT_PATH_NEO4J = '/home/ec2-user/neo4j'
+DEFAULT_DIRNAME_NEO4J_IMPORT = 'import'
