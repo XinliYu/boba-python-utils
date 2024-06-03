@@ -1,6 +1,6 @@
 import inspect
 from functools import reduce
-from typing import Any, Callable, Mapping, Tuple, Union, List
+from typing import Any, Callable, Mapping, Tuple, Union, List, Sequence
 from typing import Iterable
 
 from boba_python_utils.common_utils.typing_helper import iterable
@@ -223,6 +223,7 @@ def get_relevant_named_args(
         include_varargs: bool = False,
         include_varkw: bool = False,
         return_other_args: bool = False,
+        exclusion: Sequence[str] = None,
         **kwargs
 ) -> Union[Mapping, Tuple[Mapping, Mapping]]:
     """
@@ -234,6 +235,7 @@ def get_relevant_named_args(
             when looking into `kwargs`.
         include_varkw: True to consider the name of the named arguments of `func`
             when looking into `kwargs`.
+        exclusion: A sequence of argument names to be excluded from the result.
         return_other_args: returns a 2-tuple, and the second element in the tuple is the other args
             not considered relevant to `func`.
         **kwargs: extracts arguments relevant to `func` from these named arguments.
@@ -285,14 +287,14 @@ def get_relevant_named_args(
     related_args = {
         k: v
         for k, v in kwargs.items()
-        if k in arg_names
+        if k in arg_names and (not exclusion or k not in exclusion)
     }
 
     if return_other_args:
         unrelated_args = {
             k: v
             for k, v in kwargs.items()
-            if k not in arg_names
+            if k not in arg_names and (not exclusion or k not in exclusion)
         }
         return related_args, unrelated_args
     else:
@@ -403,7 +405,7 @@ def get_processor(processor_name: str, modules: Iterable[Any] = None, processors
     raise ValueError(f"processor '{processor_name}' not found")
 
 
-def process(obj: Any, modules: Iterable[Any] = None, processors: Mapping = None, output_as_arg_place_holder: str='#output', **kwargs) -> Any:
+def process(obj: Any, modules: Iterable[Any] = None, processors: Mapping = None, output_as_arg_place_holder: str = '#output', **kwargs) -> Any:
     """
     Apply processing functions to the input object.
 

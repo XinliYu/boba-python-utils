@@ -4,7 +4,7 @@ from os import path
 from typing import Union, Iterable, Iterator, Dict, Mapping, Type
 
 from boba_python_utils.common_utils.iter_helper import iter__
-from boba_python_utils.io_utils.common import open_
+from boba_python_utils.io_utils.common import open_, read_text_or_file
 from boba_python_utils.io_utils.text_io import _get_input_file_stream, write_all_lines, read_all_text
 from boba_python_utils.path_utils.path_string_operations import get_main_name, get_ext_name
 from boba_python_utils.path_utils.path_listing import get_files_by_pattern, get_sorted_files_from_all_sub_dirs
@@ -115,7 +115,7 @@ def _iter_json_objs(
         yield from _iter_single_input(json_input)
 
 
-def read_one_line_json_file(json_input: Union[str, Iterable, Iterator]):
+def read_single_line_json_file(json_input: Union[str, Iterable, Iterator]):
     """
     Reads JSON objects from a file where each line contains a JSON object.
 
@@ -126,19 +126,43 @@ def read_one_line_json_file(json_input: Union[str, Iterable, Iterator]):
         A list of JSON objects read from the input file(s).
 
     Example:
-        # >>> import tempfile
-        # >>> import os
-        # >>> tmpfile = tempfile.NamedTemporaryFile(delete=False)
-        # >>> tmpfile.write(b'[{"name": "John", "age": 30}, {"name": "Jane", "age": 25}]\\n')
-        # >>> tmpfile.close()
-        # >>> read_one_line_json_file(tmpfile.name)
-        # >>> os.unlink(tmpfile.name)
+        >>> import tempfile
+        >>> import os
+        >>> tmpfile = tempfile.NamedTemporaryFile(delete=False)
+        >>> tmpfile.write(b'[{"name": "John", "age": 30}, {"name": "Jane", "age": 25}]\\n')
+        >>> tmpfile.close()
+        >>> read_single_line_json_file(tmpfile.name)
+        >>> os.unlink(tmpfile.name)
 
     """
     if isinstance(json_input, str):
         return json.loads(read_all_text(json_input))
     else:
-        return sum((json.loads(read_all_text(_input_path)) for _input_path in json_input), [])
+        out = []
+        for _input_path in json_input:
+            loaded_jobj_or_jobj_list = json.loads(read_all_text(_input_path))
+            if isinstance(loaded_jobj_or_jobj_list, Mapping):
+                out.append(loaded_jobj_or_jobj_list)
+            else:
+                out.extend(loaded_jobj_or_jobj_list)
+
+        return out
+
+
+def read_json(json_text_or_file: str):
+    return read_text_or_file(
+        text_or_file=json_text_or_file,
+        read_text_func=json.loads,
+        read_file_func=read_single_line_json_file
+    )
+
+
+def read_jsonl(jsonl_text_or_file: str):
+    return read_text_or_file(
+        text_or_file=jsonl_text_or_file,
+        read_text_func=lambda _: [json.loads(json_line) for json_line in jsonl_text_or_file.split('\n') if json_line],
+        read_file_func=lambda _: list(iter_json_objs(jsonl_text_or_file))
+    )
 
 
 def iter_json_objs(

@@ -36,18 +36,19 @@ def read_all_text_(file_path_or_content: str, encoding: Optional[str] = None) ->
                 return file_path_or_content
 
 
-def write_all_text(file_path: str, text: str, encoding: Optional[str] = None) -> None:
+def write_all_text(text: str, file_path: str, encoding: Optional[str] = None, create_dir: bool = True) -> None:
     """
     Writes the given text to a file, replacing any existing content.
     Args:
-        file_path (str): the path to the file.
         text (str): the text to write to the file.
+        file_path (str): the path to the file.
         encoding (Optional[str]): the encoding to use when writing to the file.
+        create_dir (bool): If True, creates the parent directory if it does not exist.
 
     Returns:
         None
     """
-    with open(file_path, mode='w', encoding=encoding) as f:
+    with open_(file_path, mode='w', encoding=encoding, create_dir=create_dir) as f:
         f.write(text)
 
 

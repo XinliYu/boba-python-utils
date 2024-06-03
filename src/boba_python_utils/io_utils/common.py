@@ -1,6 +1,6 @@
 from os import path
 import os
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Callable, Any
 import shutil
 from boba_python_utils.common_utils.iter_helper import tqdm_wrap
 from boba_python_utils.general_utils.console_util import hprint_message
@@ -174,6 +174,15 @@ class open_:
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self._f.flush()
         self._f.close()
+
+
+def read_text_or_file(text_or_file: str, read_text_func: Callable[[str], Any], read_file_func: Callable[[str], Any]):
+    if not isinstance(text_or_file, str):
+        return text_or_file
+    if path.exists(text_or_file):
+        return read_file_func(text_or_file)
+    else:
+        return read_text_func(text_or_file)
 
 
 def create_empty_file(file_path: str) -> None:

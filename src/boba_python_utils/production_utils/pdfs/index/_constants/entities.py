@@ -1,6 +1,0 @@
-KEY_ENTITY_AFFINITY = 'entity_affinity'
-KEY_INTENT_AFFINITY = 'intent_affinity'
-KEY_TEMPLATE_AFFINITY = 'template_affinity'
-KEY_ENTITY_WITH_TYPE = 'entity_with_type'
-KEY_ENTITIES = 'entities'
-KEY_ENTITY_PAIRS = 'entity_pairs'

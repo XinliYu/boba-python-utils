@@ -216,7 +216,7 @@ def tuple_(
 
 def iter_(
         _it,
-        non_atom_types=(list, tuple),
+        non_atom_types=(List, Tuple),
         infinitely_yield_atom: bool = False,
         iter_none: bool = False,
         always_consider_iterator_as_non_atom: bool = True
@@ -476,7 +476,7 @@ def zip_longest__(
         _items = next(zip_obj)
         yield _items
 
-        if isinstance(fill_none_by_previous_values, (list, tuple)):
+        if isinstance(fill_none_by_previous_values, (List, Tuple)):
             for items in zip_obj:
                 _items = tuple(
                     (x if (x is not None or not _fill_none) else y)
@@ -530,7 +530,7 @@ def min_len(x, atom_types=(str,), default=0):
     return min(len(_x) for _x in iter__(x, atom_types=atom_types))
 
 
-def flatten_iter(x: Iterable, non_atom_types=(list, tuple), always_consider_iterator_as_non_atom: bool = True) -> Iterator:
+def flatten_iter(x: Iterable, non_atom_types=(List, Tuple), always_consider_iterator_as_non_atom: bool = True) -> Iterator:
     """
     Flattens a nested iterable into a flat generator, yielding elements one by one.
     Handles nesting by recursively yielding from any sub-iterable that is considered
@@ -706,7 +706,7 @@ def first(x, cond: Callable = None):
                 return _x
 
 
-def first_(x, non_atom_types=(list, tuple), cond: Callable = None):
+def first_(x, non_atom_types=(List, Tuple), cond: Callable = None):
     """
     Returns the first element of a sequence or the sequence itself if it is not a list or tuple.
     If a condition is specified, it returns the first element that meets the condition.
@@ -803,7 +803,7 @@ def last(x, cond: Callable = None):
         return result
 
 
-def last_(x, non_atom_types=(list, tuple), cond: Callable = None):
+def last_(x, non_atom_types=(List, Tuple), cond: Callable = None):
     """
     Returns the last element of a sequence or the sequence itself if it is not a list or tuple.
     If a condition is specified, it returns the last element that meets the condition.
